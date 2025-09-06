@@ -3,4 +3,5 @@
 **/dist
 **/build
 infra/data
+data/
 
