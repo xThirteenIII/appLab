@@ -14,14 +14,14 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-type Appliance struct {
+type App struct {
 	Col *mongo.Collection
 }
 
 // Basic Create Read Update and Delete operations
 
 // This will be a GET request
-func (a *Appliance) ListAppliances(w http.ResponseWriter, r *http.Request) {
+func (a *App) ListAppliances(w http.ResponseWriter, r *http.Request) {
 
 	ctx, cancel := context.WithTimeout(r.Context(), 5*time.Second)
 	defer cancel()
@@ -45,7 +45,7 @@ func (a *Appliance) ListAppliances(w http.ResponseWriter, r *http.Request) {
 }
 
 // This will be a POST request
-func (a *Appliance) CreateNewAppliance(w http.ResponseWriter, r *http.Request) {
+func (a *App) CreateNewAppliance(w http.ResponseWriter, r *http.Request) {
 	var newAppliance models.Appliance
 	if err := json.NewDecoder(r.Body).Decode(&newAppliance); err != nil {
 		http.Error(w, "invalid JSON", 400)
@@ -65,7 +65,7 @@ func (a *Appliance) CreateNewAppliance(w http.ResponseWriter, r *http.Request) {
 
 // This will be a POST request.
 // This will be split into different methods to update single fields.
-func (a *Appliance) UpdateAppliance(w http.ResponseWriter, r *http.Request) {
+func (a *App) UpdateAppliance(w http.ResponseWriter, r *http.Request) {
 	idStr := chi.URLParam(r, "id")
 	objectID, err := primitive.ObjectIDFromHex(idStr)
 	if err != nil {
@@ -89,7 +89,7 @@ func (a *Appliance) UpdateAppliance(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(updatedAppliance)
 }
 
-func (a *Appliance) DeleteAppliance(w http.ResponseWriter, r *http.Request) {
+func (a *App) DeleteAppliance(w http.ResponseWriter, r *http.Request) {
 	idStr := chi.URLParam(r, "id")
 	obojectID, err := primitive.ObjectIDFromHex(idStr)
 	if err != nil {
