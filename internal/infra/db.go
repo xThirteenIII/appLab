@@ -9,7 +9,8 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-func InitMgo (ctx context.Context) (*mongo.Database, *mongo.Collection){
+func InitMgo(ctx context.Context) (*mongo.Database, *mongo.Collection) {
+
 	uri := MustEnv("MONGO_URI", "")
 	dbName := MustEnv("DB_NAME", "applab")
 
@@ -27,7 +28,7 @@ func InitMgo (ctx context.Context) (*mongo.Database, *mongo.Collection){
 
 	// create unique index, which is model + serial
 	_, _ = col.Indexes().CreateOne(ctx, mongo.IndexModel{
-		Keys: bson.D{{Key: "model", Value: 1}, {Key: "serial", Value: 1}},
+		Keys:    bson.D{{Key: "model", Value: 1}, {Key: "serial", Value: 1}},
 		Options: options.Index().SetUnique(true),
 	})
 

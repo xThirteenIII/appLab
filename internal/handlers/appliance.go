@@ -90,6 +90,8 @@ func (a *App) UpdateAppliance(w http.ResponseWriter, r *http.Request) {
 }
 
 func (a *App) DeleteAppliance(w http.ResponseWriter, r *http.Request) {
+
+	// route is /{id}
 	idStr := chi.URLParam(r, "id")
 	obojectID, err := primitive.ObjectIDFromHex(idStr)
 	if err != nil {
