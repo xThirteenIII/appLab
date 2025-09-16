@@ -1,8 +1,8 @@
 package main
 
 import (
-	"applab/api/internal/infra"
-	"applab/api/internal/web"
+	"applab/api/backend/internal/infra"
+	"applab/api/backend/internal/web"
 	"context"
 	"log"
 	"net/http"
@@ -15,7 +15,9 @@ func main(){
 	
 
 	// Flow is Request → Router → Middleware → Handler → DB → Response
-	_ = godotenv.Load()
+	if err := godotenv.Load(); err != nil {
+		log.Println("No .env file found, relying on environment variables")
+	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), 10 * time.Second)
 	defer cancel()

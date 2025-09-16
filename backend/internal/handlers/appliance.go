@@ -1,7 +1,7 @@
 package handlers
 
 import (
-	"applab/api/internal/models"
+	"applab/api/backend/internal/models"
 	"context"
 	"encoding/json"
 	"net/http"

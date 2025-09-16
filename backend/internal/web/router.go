@@ -1,8 +1,8 @@
 package web
 
 import (
-	"applab/api/internal/handlers"
-	"applab/api/internal/infra"
+	"applab/api/backend/internal/handlers"
+	"applab/api/backend/internal/infra"
 	"net/http"
 	"strings"
 

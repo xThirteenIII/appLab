@@ -12,7 +12,7 @@ import (
 func InitMgo(ctx context.Context) (*mongo.Database, *mongo.Collection) {
 
 	uri := MustEnv("MONGO_URI", "")
-	dbName := MustEnv("DB_NAME", "applab")
+	dbName := MustEnv("DB_NAME", "")
 
 	mgoClient, err := mongo.Connect(ctx, options.Client().ApplyURI(uri))
 	if err != nil {
