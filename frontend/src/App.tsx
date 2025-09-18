@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link } from '@chakra-ui/react'
-import { createAppliance, getAppliances, type Appliance} from './api';
+import { createAppliance, getAppliances, deleteAppliance, type Appliance} from './api';
 import './App.css'
 import { LuExternalLink } from 'react-icons/lu';
 
@@ -36,7 +36,15 @@ function App() {
                 <ul>
                     {appliances.map(a => (
                         <li key={a.id}>
-                            <strong>{a.model}</strong> - {a.macAddress} - {a.serial} (FW {a.fwVersion}) - Last TE Link: <Link href={a.testExecution} colorPalette="teal">{a.testExecution}</Link> - US Link: <Link href={a.userStory} colorPalette="teal" target='_blank'>{a.userStory} <LuExternalLink /></Link>  
+                            <strong>{a.model}</strong> - {a.macAddress} - {a.serial} (FW {a.fwVersion}) - Last TE Link: <Link href={a.testExecution} colorPalette="teal" target='_blank'>{a.testExecution}<LuExternalLink /></Link> - US Link: <Link href={a.userStory} colorPalette="teal" target='_blank'>{a.userStory} <LuExternalLink /></Link>  
+                            <button style={{marginLeft:"1rem"}} onClick={ async () => {
+                                try {
+                                    await deleteAppliance(a.id);
+                                    setAppliances(appliances.filter(ap => ap.id !== a.id))
+                                }catch (e) {
+                                    setError((e as Error).message);
+                                }
+                            }}>Delete</button>
                         </li>
                     ))}
                 </ul>
@@ -70,7 +78,7 @@ function App() {
                     <input placeholder='UserStory link'
                     onChange={e => setNewAppliance({...newAppliance, userStory: e.target.value})}/>
                     <button type='submit'>Save</button>
-                    <button type='button'onClick={()=> setCreating(true)}>Cancel</button>
+                    <button type='button'onClick={()=> setCreating(false)}>Cancel</button>
                 </form>
             )}
         </div>
