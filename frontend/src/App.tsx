@@ -1,35 +1,80 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { useEffect, useState } from 'react'
+import { Link } from '@chakra-ui/react'
+import { createAppliance, getAppliances, type Appliance} from './api';
 import './App.css'
+import { LuExternalLink } from 'react-icons/lu';
 
 function App() {
-  const [count, setCount] = useState(0)
+    // Returns a stateful value, and a function to update it.
+    const [appliances, setAppliances] = useState<Appliance[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+    const [newAppliance, setNewAppliance] = useState<Partial<Appliance>>({});
+    const [creating, setCreating] = useState(false);
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    useEffect(() => {
+        getAppliances()
+            .then(data => {
+                setAppliances(data);
+                setLoading(false);
+            })
+            .catch(err => {
+                setError(err.message);
+                setLoading(false);
+            });
+    }, []);
+    
+    if (loading) return <p>Loading appliances...</p>;
+    if (error) return <p style={{color:"red"}}>Error: {error}</p>
+
+    return (
+        <div style={{padding: "1rem"}}>
+            <h1>Appliances</h1>
+            {appliances.length === 0 ? (
+                <p>no appliances found</p>
+            ) : (
+                <ul>
+                    {appliances.map(a => (
+                        <li key={a.id}>
+                            <strong>{a.model}</strong> - {a.macAddress} - {a.serial} (FW {a.fwVersion}) - Last TE Link: <Link href={a.testExecution} colorPalette="teal">{a.testExecution}</Link> - US Link: <Link href={a.userStory} colorPalette="teal" target='_blank'>{a.userStory} <LuExternalLink /></Link>  
+                        </li>
+                    ))}
+                </ul>
+            )}
+            <button style={{margin: "1rem"} } onClick={()=> setCreating(true)}>+ Add appliance</button>
+            {creating && (
+                <form
+                    onSubmit={async e => {
+                        e.preventDefault();
+                        try {
+                            const created = await createAppliance(newAppliance);
+                            setAppliances([created, ...appliances]);
+                            setCreating(false);
+                            setNewAppliance({});
+                        } catch (e) {
+                            setError((e as Error).message);
+                        }
+                    }}
+                    style={{marginBottom: "1rem"}}
+                >
+                    <input placeholder='Model'value={newAppliance.model || ""} required
+                    onChange={e => setNewAppliance({...newAppliance, model: e.target.value})}/>
+                    <input placeholder='MAC'value={newAppliance.macAddress || ""} required
+                    onChange={e => setNewAppliance({...newAppliance, macAddress: e.target.value})}/>
+                    <input placeholder='Serial Number'
+                    onChange={e => setNewAppliance({...newAppliance, serial: e.target.value})}/>
+                    <input placeholder='FW Version'
+                    onChange={e => setNewAppliance({...newAppliance, fwVersion: e.target.value})}/>
+                    <input placeholder='TestExe link'
+                    onChange={e => setNewAppliance({...newAppliance, testExecution: e.target.value})}/>
+                    <input placeholder='UserStory link'
+                    onChange={e => setNewAppliance({...newAppliance, userStory: e.target.value})}/>
+                    <button type='submit'>Save</button>
+                    <button type='button'onClick={()=> setCreating(true)}>Cancel</button>
+                </form>
+            )}
+        </div>
+    );
 }
 
-export default App
+export default App;
