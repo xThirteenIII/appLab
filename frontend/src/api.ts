@@ -9,15 +9,19 @@ export type Appliance = {
     model: string;
     serial: string;
     fwVersion: string;
+    testExecution: string;
     userStory: string;
-    testExe: string;
+    macAddress: string;
     id: string;
     inLabCount: number;
     ready: boolean;
 };
 
 export async function getAppliances(): Promise<Appliance[]> {
-    const res = await fetch(`${API_URL}/appliances`);
+    const res = await fetch(`${API_URL}/appliances/`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+    });
     if (!res.ok) throw new Error("Failed to fetch appliances");
     return res.json();
 }
