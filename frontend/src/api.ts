@@ -36,3 +36,13 @@ export async function createAppliance(appliance: Partial<Appliance>): Promise<Ap
     if (!res.ok) throw new Error("Failed to create appliance");
     return res.json();
 }
+
+export async function deleteAppliance(id: string): Promise<number> {
+    const res = await fetch(`${API_URL}/appliances/${id}`, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+    });
+
+    if (!res.ok) throw new Error("Failed to delete appliance");
+    return res.status;
+}
