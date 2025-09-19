@@ -43,7 +43,7 @@ func NewRouter(_ *mongo.Database, col *mongo.Collection) http.Handler {
 		w.Write([]byte("ok"))
 	})
 
-	router.Route("/api/appliances", func(r chi.Router) {
+	router.Route("/api/appliances", func(router chi.Router) {
 		router.Get("/", app.ListAppliances)
 		router.Post("/", app.CreateNewAppliance)
 		router.Put("/{id}", app.UpdateAppliance)
