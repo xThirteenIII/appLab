@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link } from '@chakra-ui/react'
-import { createAppliance, getAppliances, deleteAppliance, type Appliance} from './api';
+import { createAppliance, getAppliances, deleteAppliance, type Appliance, updateAppliance} from './api';
 import './App.css'
 import { LuExternalLink } from 'react-icons/lu';
 
@@ -45,6 +45,37 @@ function App() {
                                     setError((e as Error).message);
                                 }
                             }}>Delete</button>
+            {creating && (
+                <form
+                    onSubmit={async e => {
+                        e.preventDefault();
+                        try {
+                            const created = await updateAppliance(newAppliance);
+                            setAppliances([created, ...appliances]);
+                            setCreating(false);
+                            setNewAppliance({});
+                        } catch (e) {
+                            setError((e as Error).message);
+                        }
+                    }}
+                    style={{marginBottom: "1rem"}}
+                >
+                    <input placeholder='Model'value={newAppliance.model || ""} required
+                    onChange={e => setNewAppliance({...newAppliance, model: e.target.value})}/>
+                    <input placeholder='MAC'value={newAppliance.macAddress || ""} required
+                    onChange={e => setNewAppliance({...newAppliance, macAddress: e.target.value})}/>
+                    <input placeholder='Serial Number'
+                    onChange={e => setNewAppliance({...newAppliance, serial: e.target.value})}/>
+                    <input placeholder='FW Version'
+                    onChange={e => setNewAppliance({...newAppliance, fwVersion: e.target.value})}/>
+                    <input placeholder='TestExe link'
+                    onChange={e => setNewAppliance({...newAppliance, testExecution: e.target.value})}/>
+                    <input placeholder='UserStory link'
+                    onChange={e => setNewAppliance({...newAppliance, userStory: e.target.value})}/>
+                    <button type='submit'>Save</button>
+                    <button type='button'onClick={()=> setCreating(false)}>Cancel</button>
+                </form>
+            )}
                         </li>
                     ))}
                 </ul>

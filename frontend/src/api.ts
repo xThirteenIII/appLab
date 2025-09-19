@@ -46,3 +46,14 @@ export async function deleteAppliance(id: string): Promise<number> {
     if (!res.ok) throw new Error("Failed to delete appliance");
     return res.status;
 }
+
+export async function updateAppliance(id: string, appliance: Partial<Appliance>): Promise<Appliance> {
+    const res = await fetch(`${API_URL}/appliances/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(appliance),
+    });
+
+    if (!res.ok) throw new Error("Failed to update appliance");
+    return res.json();
+}
