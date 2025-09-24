@@ -13,6 +13,7 @@ import (
 
 func main(){
 	
+
 	// Flow is Request → Router → Middleware → Handler → DB → Response
 	if err := godotenv.Load(); err != nil {
 		log.Println("No .env file found, relying on environment variables")
@@ -40,4 +41,5 @@ func main(){
 	//
 	// ListenAndServe always returns a non-nil error.
 	log.Fatal(http.ListenAndServe(":"+port, router))
+
 }

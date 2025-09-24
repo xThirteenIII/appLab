@@ -30,6 +30,7 @@ func (a *App) ListAppliances(w http.ResponseWriter, r *http.Request) {
 	cursor, err := a.Col.Find(ctx, bson.D{}, options.Find().SetSort(bson.D{{Key: "updatedAt", Value: -1}}))
 	if err != nil {
 		http.Error(w, err.Error(), 500)
+		return
 	}
 	defer cursor.Close(ctx)
 
@@ -40,6 +41,7 @@ func (a *App) ListAppliances(w http.ResponseWriter, r *http.Request) {
 	}
 
 	json.NewEncoder(w).Encode(list)
+
 }
 
 // This will be a POST request

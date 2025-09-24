@@ -13,6 +13,5 @@ func MustEnv(key, fallback string) string {
 		return fallback
 	}
 	log.Fatalf("missing env %s", key)
-
 	return ""
 }
