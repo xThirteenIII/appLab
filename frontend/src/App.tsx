@@ -2,6 +2,7 @@ import { ChakraProvider, Box, defaultSystem } from '@chakra-ui/react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Sidebar from './sidebar';
 import AppliancesPage from './AppliancesPage';
+import ProfilePage from './ProfilePage';
 
 function App() {
 
@@ -14,6 +15,7 @@ function App() {
           <Box p={4} flex={1}>
             <Routes>
               <Route path="/" element={<AppliancesPage />} />
+              <Route path="/profile" element={<ProfilePage />} />
             </Routes>
           </Box>
         </Box>
