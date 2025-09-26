@@ -26,7 +26,7 @@ function Sidebar() {
                 minWidth="4rem"
                 minHeight="4rem"
               >
-              <NavLink to="/">
+              <NavLink to="/profile">
                 <AiOutlineProfile style={{ width: "3rem", height: "3rem" }} />
               </NavLink>
               </IconButton>
