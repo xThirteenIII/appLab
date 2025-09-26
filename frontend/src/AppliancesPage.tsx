@@ -59,7 +59,7 @@ function AppliancesPage() {
     }
     
     return (
-        <div style={{padding: "1rem"}}>
+        <div>
             <h1>Appliances</h1>
             {Array.isArray(appliances) && appliances.length === 0 ? (
                 <p>no appliances found</p>

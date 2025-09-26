@@ -8,16 +8,17 @@ function App() {
 
   return (
     // Wrap ChakraProvider at the root of my app
+    // minHeight on the Box ensures it covers the whole page.
     <ChakraProvider value={defaultSystem}>
       <Router>
-        <Box display="flex">
-        <Sidebar />
-          <Box p={4} flex={1}>
-            <Routes>
-              <Route path="/" element={<AppliancesPage />} />
-              <Route path="/profile" element={<ProfilePage />} />
-            </Routes>
-          </Box>
+        <Box display="flex" minHeight="100vh">
+            <Sidebar />
+            <Box p={6} flex="5" minHeight="100vh" overflow={"hidden"}>
+              <Routes>
+                <Route path="/" element={<AppliancesPage />} />
+                <Route path="/profile" element={<ProfilePage />} />
+              </Routes>
+            </Box>
         </Box>
       </Router>
     </ChakraProvider>

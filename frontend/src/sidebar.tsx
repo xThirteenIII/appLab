@@ -5,7 +5,7 @@ import { AiOutlineProfile } from 'react-icons/ai';
 
 function Sidebar() {
   return (
-    <Box as="nav" w="200px" p={4} borderRight="1px solid #eee" h="100vh" position="sticky" top={0}>
+    <Box as="nav" w="200px" p={4} borderRight="1px solid #eee" h="100vh" top={0} flex={1}>
       <List.Root gap={6} listStyle={'none'} justifyContent={'center'} alignContent={'center'}>
         <List.Item>
               <IconButton

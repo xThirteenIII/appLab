@@ -1,6 +1,8 @@
 function ProfilePage(){
     return (
-        <h1>Hello this is profile page :D </h1>
+        <div>
+            <h1>Hello this is profile page :D </h1>
+        </div>
     );
 }
 export default ProfilePage;
